@@ -101,6 +101,10 @@
     }
     .icon-btn:hover { color: var(--text); border-color: var(--blue); }
     .icon-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .duolingo-link:hover {
+      color: #58cc02;
+      border-color: rgba(88, 204, 2, .55);
+    }
 
     .lang-wrapper { position: relative; }
     .lang-btn {
@@ -167,6 +171,59 @@
       padding: 20px;
     }
 
+    .spotify-card {
+      overflow: hidden;
+      padding: 0;
+    }
+    .spotify-copy {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .spotify-copy p {
+      max-width: 620px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+    .spotify-open {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: rgba(30, 215, 96, .1);
+      color: #1ed760;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid rgba(30, 215, 96, .24);
+      transition: transform .15s, background .15s;
+    }
+    .spotify-open:hover {
+      transform: translateY(-1px);
+      background: rgba(30, 215, 96, .16);
+    }
+    .spotify-open svg {
+      width: 15px;
+      height: 15px;
+    }
+    .spotify-frame {
+      display: block;
+      width: 100%;
+      height: 352px;
+      border: 0;
+      background: var(--surface);
+    }
+    @media (max-width: 620px) {
+      .spotify-copy { flex-direction: column; }
+      .spotify-open { width: 100%; justify-content: center; }
+      .spotify-frame { height: 420px; }
+    }
+
     /* HERO */
     .hero { display: flex; gap: 40px; align-items: flex-start; }
     @media (max-width: 720px) { .hero { flex-direction: column; } }
@@ -183,6 +240,13 @@
       background: var(--surface);
       display: flex; align-items: center; justify-content: center;
       border: 2.5px solid var(--bg);
+      overflow: hidden;
+    }
+    .avatar-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
     }
 
     .hero-left { flex-shrink: 0; }
@@ -580,6 +644,10 @@
       transform: translateY(-3px);
       box-shadow: 0 12px 28px rgba(0,0,0,.18);
     }
+    .art-card-link {
+      display: block;
+      color: inherit;
+    }
     .art-thumb {
       position: relative;
       height: 260px;
@@ -625,6 +693,8 @@
     .about-body p + p { margin-top: 14px; }
     .fun-grid { display: flex; flex-wrap: wrap; gap: 7px; }
     .fun-tag { font-size: 12px; padding: 4px 10px; background: var(--surface); border-radius: 6px; color: var(--muted); border: 1px solid var(--border); display: flex; align-items: center; gap: 5px; }
+    a.fun-tag { transition: color .15s, border-color .15s; }
+    a.fun-tag:hover { color: #58cc02; border-color: rgba(88, 204, 2, .45); }
     .fun-tag svg { width: 13px; height: 13px; flex-shrink: 0; }
 
     /* SKILLS */
@@ -763,6 +833,7 @@
       <a href="#projects" class="nav-link" data-i18n="nav_projects">Projects</a>
       <a href="#art" class="nav-link" data-i18n="nav_art">Art</a>
       <a href="#about" class="nav-link" data-i18n="nav_about">About</a>
+      <a href="#music" class="nav-link" data-i18n="nav_music">Music</a>
       <a href="#skills" class="nav-link" data-i18n="nav_skills">Skills</a>
       <a href="#work" class="nav-link" data-i18n="nav_work">Experience</a>
       <a href="#contributions" class="nav-link" data-i18n="nav_contrib">Activity</a>
@@ -805,11 +876,7 @@
       <div class="hero-left">
         <div class="avatar-wrap">
           <div class="avatar-inner">
-            <!-- User/code icon -->
-            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
+            <img class="avatar-photo" src="./img/profile/fajar.jpeg" alt="Foto Fajar Eka Sandiyuda">
           </div>
         </div>
         <h1 class="hero-name">Fajar Eka Sandiyuda</h1>
@@ -819,7 +886,7 @@
           <span data-i18n="open_work">Open to work</span>
         </div>
         <p class="hero-bio" data-i18n="short_bio">
-          Full Stack Web Developer with 3+ years building enterprise web applications — from government systems to hospital management, POS, and e-commerce platforms.
+          Full Stack Web Developer with 4+ years building enterprise web applications — from government systems to hospital management, POS, and e-commerce platforms.
         </p>
         <div class="role-tags">
           <span class="tag tag-blue">Full-Stack Dev</span>
@@ -837,7 +904,7 @@
           </div>
           <div class="hero-meta-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-            <span data-i18n="employment">Full-Time at Haltec · Open to Freelance</span>
+            <span data-i18n="employment">In College · Open to Work</span>
           </div>
           <div class="hero-meta-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -855,6 +922,10 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             LinkedIn
           </a>
+          <a href="https://www.duolingo.com/profile/FajarEka7?via=share_profile_qr" target="_blank" rel="noopener" class="icon-btn duolingo-link">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="#58cc02"/><path d="M8 7h4.4c3.1 0 5.1 2 5.1 5s-2 5-5.1 5H8V7zm3 2.7v4.6h1.2c1.4 0 2.2-.8 2.2-2.3s-.8-2.3-2.2-2.3H11z" fill="#fff"/></svg>
+            Duolingo
+          </a>
           <a href="https://portofoliofajar.42web.io/" target="_blank" class="icon-btn">
             <!-- Globe icon -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -867,7 +938,7 @@
             <div class="stat-label" data-i18n="repos">Repos</div>
           </div>
           <div class="stat-box">
-            <div class="stat-num" style="color:var(--green)">3+</div>
+            <div class="stat-num" style="color:var(--green)">4+</div>
             <div class="stat-label" data-i18n="years_exp">Yrs Exp</div>
           </div>
           <div class="stat-box">
@@ -1034,14 +1105,15 @@
               <div class="dot" style="background:#ff5f57"></div><div class="dot" style="background:#febc2e"></div><div class="dot" style="background:#28c840"></div>
               <div style="flex:1;margin:0 8px;height:3px;background:var(--border);border-radius:2px"></div>
             </div>
-            <div style="padding:10px">
+            <img src="./img/project/ppdb.png" alt="" srcset="">
+            <!-- <div style="padding:10px">
               <div style="height:3px;width:70%;background:rgba(77,158,240,.5);border-radius:2px;margin-bottom:7px"></div>
               <div style="display:flex;flex-direction:column;gap:4px">
                 <div style="height:14px;background:rgba(77,158,240,.08);border:1px solid rgba(77,158,240,.2);border-radius:3px;padding:0 6px;display:flex;align-items:center"><div style="height:2px;width:60%;background:rgba(77,158,240,.3);border-radius:2px"></div></div>
                 <div style="height:14px;background:rgba(77,158,240,.08);border:1px solid rgba(77,158,240,.2);border-radius:3px;padding:0 6px;display:flex;align-items:center"><div style="height:2px;width:40%;background:rgba(77,158,240,.3);border-radius:2px"></div></div>
                 <div style="height:18px;background:var(--blue);border-radius:3px;margin-top:2px"></div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="proj-body">
@@ -1066,7 +1138,8 @@
             <div class="mockup-bar">
               <div class="dot" style="background:#ff5f57"></div><div class="dot" style="background:#febc2e"></div><div class="dot" style="background:#28c840"></div>
             </div>
-            <div style="padding:10px">
+            <img src="./img/project/silpusitron.png" alt="" srcset="">
+            <!-- <div style="padding:10px">
               <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                 <div style="height:2px;flex:1;background:rgba(224,155,90,.3);border-radius:2px"></div>
@@ -1083,7 +1156,7 @@
                   <div style="font-size:9px;color:var(--muted)">Pending</div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="proj-body">
@@ -1199,6 +1272,30 @@
         </div>
       </div>
 
+      <div class="proj-card">
+        <div class="proj-preview" style="--from:#1a2a1a;--to:#0c0f14">
+          <div class="mockup">
+            <div class="mockup-bar">
+              <div class="dot" style="background:#ff5f57"></div><div class="dot" style="background:#febc2e"></div><div class="dot" style="background:#28c840"></div>
+            </div>
+            <img src="./img/project/matchgo.png" alt="" srcset="">
+          </div>
+        </div>
+        <div class="proj-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <div class="proj-title">Match Go</div>
+            <span class="proj-type" style="background:rgba(77,184,138,.1);color:var(--green)">Education</span>
+          </div>
+          <p class="proj-desc" data-i18n="proj7_desc">Match making platform for connecting people with similar interests in futsal game.</p>
+          <div class="tech-tags"><span class="tech-tag">Laravel</span><span class="tech-tag">MySQL</span><span class="tech-tag">Bootstrap</span></div>
+          <div class="proj-links">
+            <a href="https://github.com/fajarekasa555" target="_blank" class="btn btn-primary">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+              Code
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1227,10 +1324,10 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
               Digital Art
             </span>
-            <span class="fun-tag">
+            <a class="fun-tag" href="https://www.duolingo.com/profile/FajarEka7?via=share_profile_qr" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg>
               Languages
-            </span>
+            </a>
             <span class="fun-tag">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
               Coffee
@@ -1259,6 +1356,22 @@
           </ul>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- MUSIC -->
+  <section id="music" class="fade-in">
+    <p class="section-eyebrow" data-i18n="music_label">Music</p>
+    <h2 class="section-heading" data-i18n="music_title">Playlist on repeat</h2>
+    <div class="card spotify-card">
+      <div class="spotify-copy">
+        <p data-i18n="music_intro">A small window into what keeps me focused while coding, drawing, and building things late into the night.</p>
+        <a class="spotify-open" href="https://open.spotify.com/playlist/6fBmCsgR7S4d0xO6hCwAEA?si=388ab90be99d4f9d" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.308a.747.747 0 0 1-1.028.249c-2.817-1.722-6.364-2.111-10.538-1.156a.747.747 0 1 1-.333-1.456c4.568-1.045 8.488-.596 11.65 1.336.353.216.464.676.249 1.027zm1.469-3.269a.936.936 0 0 1-1.287.309c-3.224-1.981-8.138-2.555-11.95-1.398a.936.936 0 0 1-.544-1.791c4.355-1.322 9.77-.682 13.472 1.594.44.271.579.847.309 1.286zm.126-3.404C15.232 8.34 8.856 8.13 5.165 9.25a1.123 1.123 0 1 1-.652-2.149c4.238-1.287 11.279-1.04 15.731 1.602a1.123 1.123 0 1 1-1.146 1.932z"/></svg>
+          <span data-i18n="music_open">Open Spotify</span>
+        </a>
+      </div>
+      <iframe class="spotify-frame" src="https://open.spotify.com/embed/playlist/6fBmCsgR7S4d0xO6hCwAEA?utm_source=generator" title="Spotify playlist" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
   </section>
 
@@ -1597,76 +1710,213 @@
 
     <div class="art-collection" id="artCollection">
       <article class="art-card">
-        <div class="art-thumb">
-          <div class="art-piece art-piece-2"></div>
-        </div>
-        <div class="art-card-body">
-          <h3 class="art-card-title" data-i18n="art_card1_title">Anime portrait</h3>
-          <p class="art-card-sub">Character / Fanart</p>
-        </div>
+        <a class="art-card-link" href="./img/art/Untitled75_20260626235718.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled75_20260626235718.png" alt="Digital artwork 01" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title" data-i18n="art_card1_title">Anime portrait</h3>
+            <p class="art-card-sub">Digital Art / 2026</p>
+          </div>
+        </a>
       </article>
       <article class="art-card">
-        <div class="art-thumb">
-          <div class="art-piece art-piece-3"></div>
-        </div>
-        <div class="art-card-body">
-          <h3 class="art-card-title" data-i18n="art_card2_title">Chibi expression</h3>
-          <p class="art-card-sub">Cute / Sticker</p>
-        </div>
+        <a class="art-card-link" href="./img/art/Untitled58_20250929114203.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled58_20250929114203.png" alt="Digital artwork 02" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title" data-i18n="art_card2_title">Chibi expression</h3>
+            <p class="art-card-sub">Digital Art / 2025</p>
+          </div>
+        </a>
       </article>
       <article class="art-card">
-        <div class="art-thumb">
-          <div class="art-piece art-piece-4"></div>
-        </div>
-        <div class="art-card-body">
-          <h3 class="art-card-title" data-i18n="art_card3_title">Character sheet</h3>
-          <p class="art-card-sub">Pose / Outfit</p>
-        </div>
+        <a class="art-card-link" href="./img/art/Untitled54_20260127142322.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled54_20260127142322.png" alt="Digital artwork 03" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title" data-i18n="art_card3_title">Character sheet</h3>
+            <p class="art-card-sub">Digital Art / 2026</p>
+          </div>
+        </a>
       </article>
       <article class="art-card">
-        <div class="art-thumb">
-          <div class="art-piece art-piece-1"></div>
-        </div>
-        <div class="art-card-body">
-          <h3 class="art-card-title" data-i18n="art_card4_title">Storybook page</h3>
-          <p class="art-card-sub">Illustration / Scene</p>
-        </div>
+        <a class="art-card-link" href="./img/art/Untitled51_20250830201433.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled51_20250830201433.png" alt="Digital artwork 04" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title" data-i18n="art_card4_title">Storybook page</h3>
+            <p class="art-card-sub">Digital Art / 2025</p>
+          </div>
+        </a>
       </article>
       <article class="art-card">
-        <div class="art-thumb">
-          <div class="art-piece art-piece-2"></div>
-        </div>
-        <div class="art-card-body">
-          <h3 class="art-card-title" data-i18n="art_card5_title">Original character</h3>
-          <p class="art-card-sub">OC / Design</p>
-        </div>
+        <a class="art-card-link" href="./img/art/Untitled4_20250211030544.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled4_20250211030544.png" alt="Digital artwork 05" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title" data-i18n="art_card5_title">Original character</h3>
+            <p class="art-card-sub">Digital Art / 2025</p>
+          </div>
+        </a>
       </article>
       <article class="art-card">
-        <div class="art-thumb">
-          <div class="art-piece art-piece-3"></div>
-        </div>
-        <div class="art-card-body">
-          <h3 class="art-card-title" data-i18n="art_card6_title">Sticker set</h3>
-          <p class="art-card-sub">Chibi / Emote</p>
-        </div>
+        <a class="art-card-link" href="./img/art/Untitled48_20250828232150.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled48_20250828232150.png" alt="Digital artwork 06" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title" data-i18n="art_card6_title">Sticker set</h3>
+            <p class="art-card-sub">Digital Art / 2025</p>
+          </div>
+        </a>
       </article>
       <article class="art-card art-extra">
-        <div class="art-thumb">
-          <div class="art-piece art-piece-4"></div>
-        </div>
-        <div class="art-card-body">
-          <h3 class="art-card-title" data-i18n="art_card7_title">Outfit study</h3>
-          <p class="art-card-sub">Fashion / Pose</p>
-        </div>
+        <a class="art-card-link" href="./img/art/Untitled48_20250826213914.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled48_20250826213914.png" alt="Digital artwork 07" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title" data-i18n="art_card7_title">Outfit study</h3>
+            <p class="art-card-sub">Digital Art / 2025</p>
+          </div>
+        </a>
       </article>
       <article class="art-card art-extra">
-        <div class="art-thumb">
-          <div class="art-piece art-piece-1"></div>
-        </div>
-        <div class="art-card-body">
-          <h3 class="art-card-title" data-i18n="art_card8_title">Soft illustration</h3>
-          <p class="art-card-sub">Book / Cover</p>
-        </div>
+        <a class="art-card-link" href="./img/art/Untitled46_20250826200806.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled46_20250826200806.png" alt="Digital artwork 08" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title" data-i18n="art_card8_title">Soft illustration</h3>
+            <p class="art-card-sub">Digital Art / 2025</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card art-extra">
+        <a class="art-card-link" href="./img/art/Untitled45_20250826195332.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled45_20250826195332.png" alt="Digital artwork 09" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 09</h3>
+            <p class="art-card-sub">Digital Art / 2025</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card art-extra">
+        <a class="art-card-link" href="./img/art/Untitled44_20250817215235.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled44_20250817215235.png" alt="Digital artwork 10" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 10</h3>
+            <p class="art-card-sub">Digital Art / 2025</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card art-extra">
+        <a class="art-card-link" href="./img/art/Untitled44_20250817063401.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled44_20250817063401.png" alt="Digital artwork 11" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 11</h3>
+            <p class="art-card-sub">Digital Art / 2025</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card art-extra">
+        <a class="art-card-link" href="./img/art/Untitled43_20250814151455.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled43_20250814151455.png" alt="Digital artwork 12" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 12</h3>
+            <p class="art-card-sub">Digital Art / 2025</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card art-extra">
+        <a class="art-card-link" href="./img/art/Untitled33_20250605145406.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled33_20250605145406.png" alt="Digital artwork 13" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 13</h3>
+            <p class="art-card-sub">Digital Art / 2025</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card art-extra">
+        <a class="art-card-link" href="./img/art/Untitled13_20260127195956.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled13_20260127195956.png" alt="Digital artwork 14" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 14</h3>
+            <p class="art-card-sub">Digital Art / 2026</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card art-extra">
+        <a class="art-card-link" href="./img/art/Untitled10_20250226130338.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Untitled10_20250226130338.png" alt="Digital artwork 15" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 15</h3>
+            <p class="art-card-sub">Digital Art / 2025</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card art-extra">
+        <a class="art-card-link" href="./img/art/Tak%20berjudul367_20220405113750.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Tak%20berjudul367_20220405113750.png" alt="Digital artwork 16" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 16</h3>
+            <p class="art-card-sub">Digital Art / 2022</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card art-extra">
+        <a class="art-card-link" href="./img/art/Tak%20berjudul359_20220326201217.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Tak%20berjudul359_20220326201217.png" alt="Digital artwork 17" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 17</h3>
+            <p class="art-card-sub">Digital Art / 2022</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card art-extra">
+        <a class="art-card-link" href="./img/art/Tak%20berjudul312.jpg.jpeg" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Tak%20berjudul312.jpg.jpeg" alt="Digital artwork 18" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 18</h3>
+            <p class="art-card-sub">Digital Art / Archive</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card art-extra">
+        <a class="art-card-link" href="./img/art/Tak%20berjudul310_20220121195632.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/Tak%20berjudul310_20220121195632.png" alt="Digital artwork 19" loading="lazy">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 19</h3>
+            <p class="art-card-sub">Digital Art / 2022</p>
+          </div>
+        </a>
       </article>
     </div>
     <div class="art-more-wrap">
@@ -1690,7 +1940,7 @@
               <div class="timeline-role" data-i18n="job1_title">Full Stack Developer</div>
               <div class="timeline-company">Haltec</div>
             </div>
-            <div class="timeline-period" style="background:rgba(77,184,138,.1);color:var(--green)">2025 — Present</div>
+            <div class="timeline-period" style="background:rgba(77,184,138,.1);color:var(--green)">2024 — 2025</div>
           </div>
           <ul class="timeline-list">
             <li data-i18n="job1_1">Mengembangkan aplikasi web enterprise dengan Laravel dan Vue.js</li>
@@ -1709,7 +1959,7 @@
               <div class="timeline-role" data-i18n="job2_title">Full Stack Developer Intern</div>
               <div class="timeline-company">Sekawan Media</div>
             </div>
-            <div class="timeline-period" style="background:rgba(155,114,207,.1);color:var(--purple)">2024 — 2025</div>
+            <div class="timeline-period" style="background:rgba(155,114,207,.1);color:var(--purple)">2023 — 2025</div>
           </div>
           <ul class="timeline-list">
             <li data-i18n="job2_1">Mengembangkan sistem internal enterprise untuk ASW dan Inafood</li>
@@ -1773,6 +2023,17 @@
           <div class="cert-sub" data-i18n="award2_sub">Representative, Tulungagung Regency</div>
         </div>
       </div>
+      <div class="cert-card">
+        <div class="cert-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1.5 15h-3v-3h3zm0-4h-3V7h3z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="cert-title" data-i18n="award3_title">Mahasiswa IPK tertinggi 2026</div>
+          <div class="cert-sub" data-i18n="award3_sub">Politeknik Negeri Malang, Teknologi Informasi</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1794,6 +2055,10 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             LinkedIn
           </a>
+          <a href="https://www.duolingo.com/profile/FajarEka7?via=share_profile_qr" target="_blank" rel="noopener" class="icon-btn duolingo-link">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="#58cc02"/><path d="M8 7h4.4c3.1 0 5.1 2 5.1 5s-2 5-5.1 5H8V7zm3 2.7v4.6h1.2c1.4 0 2.2-.8 2.2-2.3s-.8-2.3-2.2-2.3H11z" fill="#fff"/></svg>
+            Duolingo
+          </a>
         </div>
       </div>
       <div>
@@ -1801,6 +2066,7 @@
         <a href="#projects" class="footer-link" data-i18n="nav_projects">Projects</a>
         <a href="#art" class="footer-link" data-i18n="nav_art">Art</a>
         <a href="#about" class="footer-link" data-i18n="nav_about">About</a>
+        <a href="#music" class="footer-link" data-i18n="nav_music">Music</a>
         <a href="#skills" class="footer-link" data-i18n="nav_skills">Skills</a>
         <a href="#work" class="footer-link" data-i18n="nav_work">Experience</a>
         <a href="#certs" class="footer-link" data-i18n="nav_certs">Achievements</a>
@@ -1859,11 +2125,11 @@ const langMeta = {
 };
 const T = {
   id: {
-    nav_projects:'Proyek',nav_art:'Karya',nav_about:'Tentang',nav_skills:'Keahlian',nav_work:'Pengalaman',nav_contrib:'Aktivitas',nav_contact:'Kontak',nav_certs:'Pencapaian',
+    nav_projects:'Proyek',nav_art:'Karya',nav_about:'Tentang',nav_music:'Musik',nav_skills:'Keahlian',nav_work:'Pengalaman',nav_contrib:'Aktivitas',nav_contact:'Kontak',nav_certs:'Pencapaian',
     open_work:'Terbuka untuk pekerjaan',
-    short_bio:'Full Stack Web Developer dengan 3+ tahun pengalaman membangun aplikasi enterprise — dari sistem pemerintahan, RS, hingga e-commerce.',
+    short_bio:'Full Stack Web Developer dengan 4+ tahun pengalaman membangun aplikasi enterprise — dari sistem pemerintahan, RS, hingga e-commerce.',
     education:'D4 Teknik Informatika, Polinema (2024–2028)',
-    employment:'Full-Time di Haltec · Terbuka untuk Freelance',
+    employment:'Mahasiswa Aktif · Terbuka untuk Bekerja',
     repos:'Repos',years_exp:'Thn Exp',projects_stat:'Proyek',
     pinned_label:'Repositori Unggulan',pinned_subtitle:'Proyek aktif & terbaik',
     pin1_desc:'Sistem manajemen inventori RS untuk RSI Gondanglegi — obat, stok, laporan.',
@@ -1882,6 +2148,7 @@ const T = {
     proj4_desc:'Dua sistem terintegrasi: Company Profile CMS dan Sistem Manajemen Stok, dihubungkan melalui REST API. Klien: Karya Hutama Perkasa.',
     proj5_desc:'Sistem terhubung untuk ASW & Inafood: Manajemen Bahan Baku, R&D, dan Regulatory Affairs (RA). Dibangun saat magang di Sekawan Media.',
     proj6_desc:'Sistem manajemen konten untuk website profil sekolah — mudah update berita dan informasi akademik.',
+    proj7_desc:'Sistem pencari lawan otomatis untuk pertandingan futsal berbasis web. Dibangun saat project-based learning di Polinema.',
     art_label:'Karya Digital',art_title:'Galeri Ilustrasi',
     art_gallery_intro:'Galeri bersih untuk karakter anime, gambar chibi, karakter original, dan ilustrasi bergaya buku gambar. Setiap frame dibuat fixed agar karya baru tetap rapi meski ukuran gambar berbeda.',
     art_studio_intro:'Atelier visual ringkas untuk karakter anime, sticker chibi, character sheet original, dan scene bergaya buku gambar.',
@@ -1896,6 +2163,9 @@ const T = {
     art_stat_slots:'slot awal',art_stat_frames:'frame fixed',
     art_more:'Lihat selengkapnya',art_less:'Tampilkan lebih sedikit',
     about_label:'Tentang',about_title:'Sedikit tentang saya',
+    music_label:'Musik',music_title:'Playlist yang sering diputar',
+    music_intro:'Sedikit gambaran musik yang menemani saya saat coding, menggambar, dan membangun sesuatu sampai larut malam.',
+    music_open:'Buka Spotify',
     skills_label:'Keahlian',skills_title:'Tech Stack',
     lang_native:'Bahasa Ibu',lang_english:'Profesional',lang_japanese:'N5 Bersertifikat · JFT N4',
     contrib_title:'Kontribusi GitHub',contrib_loading:'Memuat kontribusi…',less:'Sedikit',more:'Banyak',
@@ -1912,15 +2182,16 @@ const T = {
     certs_label:'Pencapaian',certs_title:'Sertifikasi & Penghargaan',
     award1_title:'Juara Kompetisi Kanji',award1_sub:'Juara 1, SMK se-Jawa Timur',
     award2_title:'LKS Web Technologies 2022',award2_sub:'Perwakilan Kabupaten Tulungagung',
+    award3_title:'Mahasiswa IPK tertinggi 2026',award3_sub:'Politeknik Negeri Malang, Teknologi Informasi',
     footer_bio:'Membangun aplikasi web enterprise yang andal, satu commit dalam satu waktu.',
     hire_me:'Hire Me',available:'Tersedia untuk pekerjaan',
   },
   en: {
-    nav_projects:'Projects',nav_art:'Art',nav_about:'About',nav_skills:'Skills',nav_work:'Experience',nav_contrib:'Activity',nav_contact:'Contact',nav_certs:'Achievements',
+    nav_projects:'Projects',nav_art:'Art',nav_about:'About',nav_music:'Music',nav_skills:'Skills',nav_work:'Experience',nav_contrib:'Activity',nav_contact:'Contact',nav_certs:'Achievements',
     open_work:'Open to work',
-    short_bio:'Full Stack Web Developer with 3+ years building enterprise web apps — government systems, hospital management, e-commerce, and more.',
+    short_bio:'Full Stack Web Developer with 4+ years building enterprise web apps — government systems, hospital management, e-commerce, and more.',
     education:'D4 Informatics Engineering, Polinema (2024–2028)',
-    employment:'Full-Time at Haltec · Open to Freelance',
+    employment:'Active Student · Open to Work',
     repos:'Repos',years_exp:'Yrs Exp',projects_stat:'Projects',
     pinned_label:'Pinned Repositories',pinned_subtitle:'Active & notable projects',
     pin1_desc:'Hospital inventory management system for RSI Gondanglegi — medicines, stock, reports.',
@@ -1939,6 +2210,7 @@ const T = {
     proj4_desc:'Two connected systems: Company Profile CMS and Inventory/Stock Management, integrated via REST API. Client: Karya Hutama Perkasa.',
     proj5_desc:'Connected systems for ASW & Inafood: Raw Material Management, R&D, and Regulatory Affairs (RA). Built during internship at Sekawan Media.',
     proj6_desc:'Content management system for school profile websites — easy to update news and academic info.',
+    proj7_desc:'Web-based automatic opponent finder for futsal matches. Built during project-based learning at Polinema.',
     art_label:'Digital Art',art_title:'Illustration Gallery',
     art_gallery_intro:'A clean gallery for anime characters, chibi drawings, original characters, and picture-book style illustrations. Each frame is fixed so future artwork stays tidy even with mixed image sizes.',
     art_studio_intro:'A compact visual atelier for anime characters, chibi stickers, original character sheets, and picture-book style scenes.',
@@ -1953,6 +2225,9 @@ const T = {
     art_stat_slots:'starter slots',art_stat_frames:'fixed frames',
     art_more:'View more',art_less:'Show less',
     about_label:'About',about_title:'A bit about me',
+    music_label:'Music',music_title:'Playlist on repeat',
+    music_intro:'A small window into what keeps me focused while coding, drawing, and building things late into the night.',
+    music_open:'Open Spotify',
     skills_label:'Skills',skills_title:'Tech Stack',
     lang_native:'Native',lang_english:'Professional Working',lang_japanese:'N5 Certified · JFT N4 Equivalent',
     contrib_title:'GitHub Contributions',contrib_loading:'Loading contributions…',less:'Less',more:'More',
@@ -1969,15 +2244,16 @@ const T = {
     certs_label:'Achievements',certs_title:'Certifications & Awards',
     award1_title:'Kanji Competition Winner',award1_sub:'1st Place, SMK across East Java',
     award2_title:'LKS Web Technologies 2022',award2_sub:'Representative, Tulungagung Regency',
+    award3_title:'Highest GPA Student 2026',award3_sub:'Politeknik Negeri Malang, Informatics Engineering',
     footer_bio:'Building reliable enterprise web apps, one commit at a time.',
     hire_me:'Hire Me',available:'Available for work',
   },
   ja: {
-    nav_projects:'プロジェクト',nav_art:'アート',nav_about:'自己紹介',nav_skills:'スキル',nav_work:'経験',nav_contrib:'アクティビティ',nav_contact:'お問い合わせ',nav_certs:'資格',
+    nav_projects:'プロジェクト',nav_art:'アート',nav_about:'自己紹介',nav_music:'音楽',nav_skills:'スキル',nav_work:'経験',nav_contrib:'アクティビティ',nav_contact:'お問い合わせ',nav_certs:'資格',
     open_work:'仕事募集中',
     short_bio:'3年以上の経験を持つフルスタックWebデベロッパー。政府システム、病院管理、ECなど企業向けアプリを構築。',
     education:'D4情報工学、Polinema（2024–2028）',
-    employment:'Haltecにてフルタイム勤務 · フリーランス歓迎',
+    employment:'現役学生 · フリーランス可',
     repos:'リポジトリ',years_exp:'年の経験',projects_stat:'プロジェクト',
     pinned_label:'ピン留めリポジトリ',pinned_subtitle:'アクティブ・注目プロジェクト',
     pin1_desc:'RSI Gondanglegi病院の在庫管理システム。薬品、在庫、レポート機能付き。',
@@ -1996,6 +2272,7 @@ const T = {
     proj4_desc:'2つの連携システム：企業プロフィールCMSと在庫管理システム（REST API連携）。クライアント：Karya Hutama Perkasa。',
     proj5_desc:'ASW・Inafood向け連携システム：原材料管理、R&D、薬事（RA）。Sekawan Mediaでのインターン中に開発。',
     proj6_desc:'学校プロフィールサイト用CMS。お知らせや学校情報を簡単に更新できる。',
+    proj7_desc:'フットサル試合の自動対戦相手検索システム。PolinemaでのPBL中に開発。',
     art_label:'デジタルアート',art_title:'イラストギャラリー',
     art_gallery_intro:'アニメキャラクター、ちびキャラ、オリジナルキャラクター、絵本風イラストのためのシンプルなギャラリーです。画像サイズが違っても固定フレームで整います。',
     art_studio_intro:'アニメキャラクター、ちびキャラステッカー、オリジナルキャラクターシート、絵本風シーンのための小さなビジュアルアトリエです。',
@@ -2010,6 +2287,9 @@ const T = {
     art_stat_slots:'初期スロット',art_stat_frames:'固定フレーム',
     art_more:'もっと見る',art_less:'少なく表示',
     about_label:'自己紹介',about_title:'私について少し',
+    music_label:'音楽',music_title:'よく聴くプレイリスト',
+    music_intro:'コーディング、イラスト制作、夜遅くまで何かを作る時間を支えてくれる音楽です。',
+    music_open:'Spotifyで開く',
     skills_label:'スキル',skills_title:'技術スタック',
     lang_native:'ネイティブ',lang_english:'ビジネスレベル',lang_japanese:'JLPT N5取得 · JFT N4相当',
     contrib_title:'GitHub貢献グラフ',contrib_loading:'読み込み中…',less:'少ない',more:'多い',
@@ -2026,6 +2306,7 @@ const T = {
     certs_label:'資格・実績',certs_title:'取得資格と受賞歴',
     award1_title:'漢字コンテスト優勝',award1_sub:'東ジャワ州全職業高校1位',
     award2_title:'LKS Webテクノロジー2022',award2_sub:'トゥルンアグン県代表',
+    award3_title:'GPA最高学生2026',award3_sub:'マラン工科大学、情報工学',
     footer_bio:'信頼性の高い企業向けWebアプリを一つのコミットずつ丁寧に構築。',
     hire_me:'採用する',available:'仕事募集中',
   },
@@ -2060,7 +2341,6 @@ function closeLangDropdown() {
 document.addEventListener('click', e => {
   if (!document.getElementById('langWrapper').contains(e.target)) closeLangDropdown();
 });
-setLang(currentLang);
 
 function syncArtGalleryButton() {
   const btn = document.getElementById('artMoreBtn');
@@ -2117,6 +2397,7 @@ function syncQuestUI() {
     if (mark) mark.textContent = isDone ? 'OK' : '+';
   });
 }
+setLang(currentLang);
 
 /* Contributions */
 async function loadContributions() {
