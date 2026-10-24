@@ -304,11 +304,23 @@
 
     /* MINI QUEST */
     .quest-card {
+      position: relative;
+      overflow: hidden;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 16px;
     }
+    .quest-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 14% 8%, rgba(77,158,240,.12), transparent 24%),
+        radial-gradient(circle at 90% 18%, rgba(77,184,138,.1), transparent 20%);
+      pointer-events: none;
+    }
+    .quest-card > * { position: relative; }
     .quest-head {
       display: flex;
       justify-content: space-between;
@@ -328,8 +340,29 @@
       padding: 4px 9px;
       white-space: nowrap;
     }
+    .quest-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .quest-status strong { color: var(--text); font-weight: 600; }
+    .quest-reset {
+      color: var(--muted);
+      background: transparent;
+      border: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      cursor: pointer;
+      transition: color .15s;
+    }
+    .quest-reset:hover { color: var(--orange); }
     .quest-progress {
-      height: 5px;
+      height: 7px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 999px;
@@ -352,7 +385,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      min-height: 38px;
+      min-height: 48px;
       color: var(--muted);
       background: var(--surface);
       border: 1px solid var(--border);
@@ -361,13 +394,38 @@
       font-size: 12px;
       font-weight: 500;
       cursor: pointer;
-      transition: color .15s, border-color .15s, transform .15s;
+      transition: color .15s, border-color .15s, transform .15s, background .15s;
     }
     .quest-btn:hover { color: var(--text); border-color: var(--blue); transform: translateY(-1px); }
     .quest-btn.done {
       color: var(--green);
       border-color: rgba(77,184,138,.25);
       background: rgba(77,184,138,.07);
+    }
+    .quest-main {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+    .quest-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--blue);
+      background: rgba(77,158,240,.08);
+      border: 1px solid rgba(77,158,240,.18);
+    }
+    .quest-btn.done .quest-icon {
+      color: var(--green);
+      background: rgba(77,184,138,.12);
+      border-color: rgba(77,184,138,.25);
     }
     .quest-mark {
       width: 18px;
@@ -407,7 +465,35 @@
       opacity: .45;
       transition: opacity .2s;
     }
-    .quest-badge.unlocked { opacity: 1; }
+    .quest-badge.unlocked {
+      opacity: 1;
+      box-shadow: 0 0 0 3px rgba(224,155,90,.08);
+    }
+    .quest-toast {
+      position: absolute;
+      right: 16px;
+      bottom: 14px;
+      transform: translateY(8px);
+      opacity: 0;
+      pointer-events: none;
+      color: var(--green);
+      background: var(--surface);
+      border: 1px solid rgba(77,184,138,.28);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      transition: opacity .2s, transform .2s;
+    }
+    .quest-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 560px) {
+      .quest-head, .quest-meta { flex-direction: column; align-items: flex-start; }
+      .quest-xp { align-self: flex-start; }
+      .quest-toast { left: 16px; right: auto; }
+    }
 
     /* PINNED REPOS */
     .hero-right { flex: 1; }
@@ -664,27 +750,6 @@
       color: var(--muted);
       margin-top: 3px;
     }
-    .art-extra { display: none; }
-    .art-collection.expanded .art-extra { display: block; }
-    .art-more-wrap { display: flex; justify-content: center; margin-top: 18px; }
-    .art-more-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      color: var(--muted);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 7px 13px;
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: color .15s, border-color .15s, transform .15s;
-    }
-    .art-more-btn:hover { color: var(--text); border-color: var(--orange); transform: translateY(-1px); }
-    .art-more-btn svg { width: 15px; height: 15px; transition: transform .2s; }
-    .art-more-btn.open svg { transform: rotate(180deg); }
-
     /* ABOUT */
     .about-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
     @media (max-width: 680px) { .about-grid { grid-template-columns: 1fr; } }
@@ -881,12 +946,8 @@
         </div>
         <h1 class="hero-name">Fajar Eka Sandiyuda</h1>
         <p class="hero-handle">@fajarekasa555</p>
-        <div class="status-badge">
-          <span class="status-dot"></span>
-          <span data-i18n="open_work">Open to work</span>
-        </div>
         <p class="hero-bio" data-i18n="short_bio">
-          Full Stack Web Developer with 4+ years building enterprise web applications — from government systems to hospital management, POS, and e-commerce platforms.
+          Full Stack Web Developer with 2+ years of professional experience building enterprise web applications using PHP, Laravel, CodeIgniter, JavaScript, React, Vue.js, and Next.js.
         </p>
         <div class="role-tags">
           <span class="tag tag-blue">Full-Stack Dev</span>
@@ -900,11 +961,11 @@
           </div>
           <div class="hero-meta-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-            <span data-i18n="education">D4 Teknik Informatika, Polinema (2024–2028)</span>
+            <span data-i18n="education">D4 Teknik Informatika, Polinema (2024–sekarang)</span>
           </div>
           <div class="hero-meta-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-            <span data-i18n="employment">In College · Open to Work</span>
+            <span data-i18n="employment">Mahasiswa D4 · IPK 3,95/4,00</span>
           </div>
           <div class="hero-meta-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -917,7 +978,7 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
             GitHub
           </a>
-          <a href="https://www.linkedin.com/in/fajar-sandiyuda-1a97a427a" target="_blank" class="icon-btn">
+          <a href="https://linkedin.com/in/fajar-sandiyuda-1a97a427a" target="_blank" class="icon-btn">
             <!-- LinkedIn icon -->
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             LinkedIn
@@ -926,7 +987,7 @@
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="#58cc02"/><path d="M8 7h4.4c3.1 0 5.1 2 5.1 5s-2 5-5.1 5H8V7zm3 2.7v4.6h1.2c1.4 0 2.2-.8 2.2-2.3s-.8-2.3-2.2-2.3H11z" fill="#fff"/></svg>
             Duolingo
           </a>
-          <a href="https://portofoliofajar.42web.io/" target="_blank" class="icon-btn">
+          <a href="https://fajarekasa555.github.io/portofolioV2" target="_blank" class="icon-btn">
             <!-- Globe icon -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             Portfolio
@@ -938,7 +999,7 @@
             <div class="stat-label" data-i18n="repos">Repos</div>
           </div>
           <div class="stat-box">
-            <div class="stat-num" style="color:var(--green)">4+</div>
+            <div class="stat-num" style="color:var(--green)">2+</div>
             <div class="stat-label" data-i18n="years_exp">Yrs Exp</div>
           </div>
           <div class="stat-box">
@@ -1026,28 +1087,33 @@
         </div>
         <div class="quest-xp"><span id="questXp">0</span> XP</div>
       </div>
+      <div class="quest-meta">
+        <span class="quest-status" id="questStatus">0/5 completed</span>
+        <button class="quest-reset" type="button" onclick="resetQuest()" data-i18n="quest_reset">Reset quest</button>
+      </div>
       <div class="quest-progress"><div class="quest-progress-fill" id="questProgress"></div></div>
       <div class="quest-list">
         <button class="quest-btn" type="button" data-quest="projects" onclick="completeQuest('projects', '#projects')">
-          <span data-i18n="quest_projects">View projects</span><span class="quest-mark">+</span>
+          <span class="quest-main"><span class="quest-icon">01</span><span data-i18n="quest_projects">View projects</span></span><span class="quest-mark">+</span>
         </button>
         <button class="quest-btn" type="button" data-quest="art" onclick="completeQuest('art', '#art')">
-          <span data-i18n="quest_art">Open art gallery</span><span class="quest-mark">+</span>
+          <span class="quest-main"><span class="quest-icon">02</span><span data-i18n="quest_art">Open art gallery</span></span><span class="quest-mark">+</span>
         </button>
         <button class="quest-btn" type="button" data-quest="skills" onclick="completeQuest('skills', '#skills')">
-          <span data-i18n="quest_skills">Check tech stack</span><span class="quest-mark">+</span>
+          <span class="quest-main"><span class="quest-icon">03</span><span data-i18n="quest_skills">Check tech stack</span></span><span class="quest-mark">+</span>
         </button>
-        <button class="quest-btn" type="button" data-quest="theme" onclick="completeQuest('theme'); toggleTheme()">
-          <span data-i18n="quest_theme">Switch theme</span><span class="quest-mark">+</span>
+        <button class="quest-btn" type="button" data-quest="theme" onclick="toggleTheme()">
+          <span class="quest-main"><span class="quest-icon">04</span><span data-i18n="quest_theme">Switch theme</span></span><span class="quest-mark">+</span>
         </button>
         <button class="quest-btn" type="button" data-quest="contact" onclick="completeQuest('contact', '#contact')">
-          <span data-i18n="quest_contact">Reach contact</span><span class="quest-mark">+</span>
+          <span class="quest-main"><span class="quest-icon">05</span><span data-i18n="quest_contact">Reach contact</span></span><span class="quest-mark">+</span>
         </button>
       </div>
       <div class="quest-reward">
         <span data-i18n="quest_reward">Reward</span>
         <span class="quest-badge" id="questBadge">PORTFOLIO EXPLORER</span>
       </div>
+      <div class="quest-toast" id="questToast">+20 XP</div>
     </div>
   </section>
 
@@ -1304,17 +1370,11 @@
     <p class="section-eyebrow" data-i18n="about_label">About</p>
     <h2 class="section-heading" data-i18n="about_title">A bit about me</h2>
     <div class="about-grid">
-      <div class="card about-body" data-i18n="about_text">
-        <p>
-          Hai! Saya <strong>Fajar Eka Sandiyuda</strong>, Full Stack Web Developer dari Malang, Jawa Timur. Saya memiliki pengalaman lebih dari 3 tahun membangun aplikasi web enterprise — mulai dari sistem pemerintahan, manajemen rumah sakit, hingga e-commerce dan CMS.
-        </p>
-        <p>
-          Perjalanan saya dimulai di <strong>SMKN 1 Boyolangu</strong> jurusan Rekayasa Perangkat Lunak, lalu berlanjut ke <strong>Politeknik Negeri Malang</strong> dengan IPK 3.95/4.00. Saya juga aktif berkontribusi di dunia profesional melalui magang di Sekawan Media dan saat ini bekerja sebagai Full Stack Developer di <strong>Haltec</strong>.
-        </p>
-        <p>
-          Di luar coding, saya adalah seorang <strong>digital illustrator</strong> dan penggemar bahasa — saya berhasil meraih sertifikasi <strong>JLPT N5 dan JFT Basic (setara N4)</strong>, bahkan memenangkan Kompetisi Kanji antar SMK se-Jawa Timur. Dua dunia ini saling melengkapi: kreativitas seni memperhalus kepekaan UI/UX saya, dan logika programming membuat desain lebih sistematis.
-        </p>
-        <p>Saat ini terbuka untuk peluang <strong>Full-Time, Remote, atau Freelance</strong>. Mari ngobrol!</p>
+      <div class="card about-body">
+        <p data-i18n="about_intro">Saya Fajar Eka Sandiyuda, Full Stack Web Developer dari Malang dengan pengalaman profesional lebih dari 2 tahun membangun dan memelihara aplikasi web enterprise menggunakan PHP, Laravel, CodeIgniter, JavaScript, React, Vue.js, dan Next.js.</p>
+        <p data-i18n="about_education">Saya sedang menempuh D4 Teknik Informatika di Politeknik Negeri Malang (2024–sekarang) dengan IPK 3,95. Sebelumnya, saya lulus dari SMKN 1 Boyolangu jurusan Rekayasa Perangkat Lunak sebagai lulusan dengan nilai akademik tertinggi di program keahlian tersebut.</p>
+        <p data-i18n="about_work">Di Haltec (Januari 2023–Juli 2025), saya mengembangkan aplikasi enterprise, sistem inventori RSI Gondanglegi, POS Wisnu Farma, serta CMS dan sistem stok Karya Hutama Perkasa. Saya juga menjalani magang Full Stack Developer di Sekawan Media (Agustus 2023–Juni 2024) untuk sistem ASW dan Inafood.</p>
+        <p data-i18n="about_other">Saya pernah menjadi Ketua Japanese Language Club SMKN 1 Boyolangu (Januari 2023–Januari 2024), meraih JLPT N5 dan JFT-Basic, serta menjuarai Lomba Kanji antar-SMK se-Jawa Timur.</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:12px">
         <div class="card">
@@ -1349,10 +1409,10 @@
         <div class="card">
           <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);margin-bottom:10px">// fun facts</div>
           <ul style="font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:6px">
-            <li>🌙 Paling produktif jam 11 malam</li>
-            <li>⌨️ Dark mode is a lifestyle</li>
-            <li>🇯🇵 Belajar bahasa Jepang otodidak</li>
-            <li>🏆 Juara Kanji SMK se-Jawa Timur</li>
+            <li data-i18n="about_fact1">IPK 3,95 di Politeknik Negeri Malang</li>
+            <li data-i18n="about_fact2">Ketua Japanese Language Club (2023–2024)</li>
+            <li data-i18n="about_fact3">Sertifikat JLPT N5 dan JFT-Basic</li>
+            <li data-i18n="about_fact4">Juara Lomba Kanji antar-SMK se-Jawa Timur</li>
           </ul>
         </div>
       </div>
@@ -1407,6 +1467,10 @@
           </div>
           <div class="skill-name">JavaScript</div>
           <div class="skill-bar"><div class="skill-fill" style="background:#f7df1e;width:85%"></div></div>
+        </div>
+
+        <div class="skill-card" data-icon="TS" style="--skill-color:#3178c6">
+          <div class="skill-name">TypeScript</div>
         </div>
 
         <!-- HTML5 -->
@@ -1543,12 +1607,16 @@
           <div class="skill-name">Bootstrap</div>
           <div class="skill-bar"><div class="skill-fill" style="background:#7952b3;width:85%"></div></div>
         </div>
+
+        <div class="skill-card" data-icon="TW" style="--skill-color:#38bdf8">
+          <div class="skill-name">Tailwind CSS</div>
+        </div>
       </div>
     </div>
 
     <!-- Tools & DB -->
     <div class="skills-group">
-      <div class="skills-group-label" style="color:var(--green)">// Tools & Databases</div>
+      <div class="skills-group-label" style="color:var(--green)">// Tools, Databases & APIs</div>
       <div class="skills-grid">
 
         <!-- Git -->
@@ -1637,9 +1705,7 @@
               <div class="lang-level" style="color:var(--green)" data-i18n="lang_native">Native</div>
             </div>
           </div>
-          <span class="lang-pct">100%</span>
         </div>
-        <div class="lang-bar-track"><div class="lang-bar-fill" style="background:var(--green);width:100%"></div></div>
       </div>
       <div class="lang-prof-card">
         <div class="lang-prof-header">
@@ -1647,12 +1713,10 @@
             <span class="lang-flag">🇬🇧</span>
             <div>
               <div class="lang-name-txt">English</div>
-              <div class="lang-level" style="color:var(--blue)" data-i18n="lang_english">Professional Working</div>
+              <div class="lang-level" style="color:var(--blue)" data-i18n="lang_english">Conversational</div>
             </div>
           </div>
-          <span class="lang-pct">80%</span>
         </div>
-        <div class="lang-bar-track"><div class="lang-bar-fill" style="background:var(--blue);width:80%"></div></div>
       </div>
       <div class="lang-prof-card">
         <div class="lang-prof-header">
@@ -1660,12 +1724,10 @@
             <span class="lang-flag">🇯🇵</span>
             <div>
               <div class="lang-name-txt">Japanese</div>
-              <div class="lang-level" style="color:var(--purple)" data-i18n="lang_japanese">N5 Certified · JFT N4 Equivalent</div>
+              <div class="lang-level" style="color:var(--purple)" data-i18n="lang_japanese">Professional · JLPT N5 · JFT-Basic</div>
             </div>
           </div>
-          <span class="lang-pct">40%</span>
         </div>
-        <div class="lang-bar-track"><div class="lang-bar-fill" style="background:var(--purple);width:40%"></div></div>
       </div>
     </div>
   </section>
@@ -1712,7 +1774,7 @@
       <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled75_20260626235718.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled75_20260626235718.png" alt="Digital artwork 01" loading="lazy">
+            <img src="./img/art/thumbs/Untitled75_20260626235718.webp" alt="Digital artwork 01" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title" data-i18n="art_card1_title">Anime portrait</h3>
@@ -1723,7 +1785,7 @@
       <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled58_20250929114203.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled58_20250929114203.png" alt="Digital artwork 02" loading="lazy">
+            <img src="./img/art/thumbs/Untitled58_20250929114203.webp" alt="Digital artwork 02" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title" data-i18n="art_card2_title">Chibi expression</h3>
@@ -1734,7 +1796,7 @@
       <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled54_20260127142322.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled54_20260127142322.png" alt="Digital artwork 03" loading="lazy">
+            <img src="./img/art/thumbs/Untitled54_20260127142322.webp" alt="Digital artwork 03" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title" data-i18n="art_card3_title">Character sheet</h3>
@@ -1745,7 +1807,7 @@
       <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled51_20250830201433.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled51_20250830201433.png" alt="Digital artwork 04" loading="lazy">
+            <img src="./img/art/thumbs/Untitled51_20250830201433.webp" alt="Digital artwork 04" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title" data-i18n="art_card4_title">Storybook page</h3>
@@ -1756,7 +1818,7 @@
       <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled4_20250211030544.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled4_20250211030544.png" alt="Digital artwork 05" loading="lazy">
+            <img src="./img/art/thumbs/Untitled4_20250211030544.webp" alt="Digital artwork 05" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title" data-i18n="art_card5_title">Original character</h3>
@@ -1767,7 +1829,7 @@
       <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled48_20250828232150.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled48_20250828232150.png" alt="Digital artwork 06" loading="lazy">
+            <img src="./img/art/thumbs/Untitled48_20250828232150.webp" alt="Digital artwork 06" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title" data-i18n="art_card6_title">Sticker set</h3>
@@ -1775,10 +1837,10 @@
           </div>
         </a>
       </article>
-      <article class="art-card art-extra">
+      <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled48_20250826213914.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled48_20250826213914.png" alt="Digital artwork 07" loading="lazy">
+            <img src="./img/art/thumbs/Untitled48_20250826213914.webp" alt="Digital artwork 07" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title" data-i18n="art_card7_title">Outfit study</h3>
@@ -1786,10 +1848,10 @@
           </div>
         </a>
       </article>
-      <article class="art-card art-extra">
+      <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled46_20250826200806.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled46_20250826200806.png" alt="Digital artwork 08" loading="lazy">
+            <img src="./img/art/thumbs/Untitled46_20250826200806.webp" alt="Digital artwork 08" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title" data-i18n="art_card8_title">Soft illustration</h3>
@@ -1797,10 +1859,10 @@
           </div>
         </a>
       </article>
-      <article class="art-card art-extra">
+      <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled45_20250826195332.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled45_20250826195332.png" alt="Digital artwork 09" loading="lazy">
+            <img src="./img/art/thumbs/Untitled45_20250826195332.webp" alt="Digital artwork 09" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title">Artwork 09</h3>
@@ -1808,10 +1870,10 @@
           </div>
         </a>
       </article>
-      <article class="art-card art-extra">
+      <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled44_20250817215235.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled44_20250817215235.png" alt="Digital artwork 10" loading="lazy">
+            <img src="./img/art/thumbs/Untitled44_20250817215235.webp" alt="Digital artwork 10" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title">Artwork 10</h3>
@@ -1819,10 +1881,10 @@
           </div>
         </a>
       </article>
-      <article class="art-card art-extra">
+      <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled44_20250817063401.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled44_20250817063401.png" alt="Digital artwork 11" loading="lazy">
+            <img src="./img/art/thumbs/Untitled44_20250817063401.webp" alt="Digital artwork 11" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title">Artwork 11</h3>
@@ -1830,10 +1892,10 @@
           </div>
         </a>
       </article>
-      <article class="art-card art-extra">
+      <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled43_20250814151455.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled43_20250814151455.png" alt="Digital artwork 12" loading="lazy">
+            <img src="./img/art/thumbs/Untitled43_20250814151455.webp" alt="Digital artwork 12" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title">Artwork 12</h3>
@@ -1841,10 +1903,10 @@
           </div>
         </a>
       </article>
-      <article class="art-card art-extra">
+      <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled33_20250605145406.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled33_20250605145406.png" alt="Digital artwork 13" loading="lazy">
+            <img src="./img/art/thumbs/Untitled33_20250605145406.webp" alt="Digital artwork 13" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title">Artwork 13</h3>
@@ -1852,10 +1914,10 @@
           </div>
         </a>
       </article>
-      <article class="art-card art-extra">
+      <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled13_20260127195956.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled13_20260127195956.png" alt="Digital artwork 14" loading="lazy">
+            <img src="./img/art/thumbs/Untitled13_20260127195956.webp" alt="Digital artwork 14" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title">Artwork 14</h3>
@@ -1863,10 +1925,10 @@
           </div>
         </a>
       </article>
-      <article class="art-card art-extra">
+      <article class="art-card">
         <a class="art-card-link" href="./img/art/Untitled10_20250226130338.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Untitled10_20250226130338.png" alt="Digital artwork 15" loading="lazy">
+            <img src="./img/art/thumbs/Untitled10_20250226130338.webp" alt="Digital artwork 15" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title">Artwork 15</h3>
@@ -1874,10 +1936,10 @@
           </div>
         </a>
       </article>
-      <article class="art-card art-extra">
+      <article class="art-card">
         <a class="art-card-link" href="./img/art/Tak%20berjudul367_20220405113750.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Tak%20berjudul367_20220405113750.png" alt="Digital artwork 16" loading="lazy">
+            <img src="./img/art/thumbs/Tak%20berjudul367_20220405113750.webp" alt="Digital artwork 16" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title">Artwork 16</h3>
@@ -1885,10 +1947,10 @@
           </div>
         </a>
       </article>
-      <article class="art-card art-extra">
+      <article class="art-card">
         <a class="art-card-link" href="./img/art/Tak%20berjudul359_20220326201217.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Tak%20berjudul359_20220326201217.png" alt="Digital artwork 17" loading="lazy">
+            <img src="./img/art/thumbs/Tak%20berjudul359_20220326201217.webp" alt="Digital artwork 17" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title">Artwork 17</h3>
@@ -1896,10 +1958,10 @@
           </div>
         </a>
       </article>
-      <article class="art-card art-extra">
+      <article class="art-card">
         <a class="art-card-link" href="./img/art/Tak%20berjudul312.jpg.jpeg" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Tak%20berjudul312.jpg.jpeg" alt="Digital artwork 18" loading="lazy">
+            <img src="./img/art/thumbs/Tak%20berjudul312.jpg.webp" alt="Digital artwork 18" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title">Artwork 18</h3>
@@ -1907,10 +1969,10 @@
           </div>
         </a>
       </article>
-      <article class="art-card art-extra">
+      <article class="art-card">
         <a class="art-card-link" href="./img/art/Tak%20berjudul310_20220121195632.png" target="_blank" rel="noopener">
           <div class="art-thumb">
-            <img src="./img/art/Tak%20berjudul310_20220121195632.png" alt="Digital artwork 19" loading="lazy">
+            <img src="./img/art/thumbs/Tak%20berjudul310_20220121195632.webp" alt="Digital artwork 19" loading="lazy" decoding="async">
           </div>
           <div class="art-card-body">
             <h3 class="art-card-title">Artwork 19</h3>
@@ -1918,12 +1980,61 @@
           </div>
         </a>
       </article>
-    </div>
-    <div class="art-more-wrap">
-      <button class="art-more-btn" id="artMoreBtn" type="button" onclick="toggleArtGallery()">
-        <span data-i18n="art_more">Lihat selengkapnya</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-      </button>
+      <article class="art-card">
+        <a class="art-card-link" href="./img/art/Untitled13_20260902154857.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/thumbs/Untitled13_20260902154857.webp" alt="Digital artwork 20" loading="lazy" decoding="async">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 20</h3>
+            <p class="art-card-sub">Digital Art / 2026</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card">
+        <a class="art-card-link" href="./img/art/Untitled1_20260710204741.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/thumbs/Untitled1_20260710204741.webp" alt="Digital artwork 21" loading="lazy" decoding="async">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 21</h3>
+            <p class="art-card-sub">Digital Art / 2026</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card">
+        <a class="art-card-link" href="./img/art/Untitled3_20260724143608.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/thumbs/Untitled3_20260724143608.webp" alt="Digital artwork 22" loading="lazy" decoding="async">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 22</h3>
+            <p class="art-card-sub">Digital Art / 2026</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card">
+        <a class="art-card-link" href="./img/art/Untitled13.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/thumbs/Untitled13.webp" alt="Digital artwork 23" loading="lazy" decoding="async">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 23</h3>
+            <p class="art-card-sub">Digital Art / Archive</p>
+          </div>
+        </a>
+      </article>
+      <article class="art-card">
+        <a class="art-card-link" href="./img/art/Untitled5.png" target="_blank" rel="noopener">
+          <div class="art-thumb">
+            <img src="./img/art/thumbs/Untitled5.webp" alt="Digital artwork 24" loading="lazy" decoding="async">
+          </div>
+          <div class="art-card-body">
+            <h3 class="art-card-title">Artwork 24</h3>
+            <p class="art-card-sub">Digital Art / Archive</p>
+          </div>
+        </a>
+      </article>
     </div>
   </section>
 
@@ -1940,16 +2051,18 @@
               <div class="timeline-role" data-i18n="job1_title">Full Stack Developer</div>
               <div class="timeline-company">Haltec</div>
             </div>
-            <div class="timeline-period" style="background:rgba(77,184,138,.1);color:var(--green)">2024 — 2025</div>
+            <div class="timeline-period" style="background:rgba(77,184,138,.1);color:var(--green)">Jan 2023 — Jul 2025</div>
           </div>
           <ul class="timeline-list">
-            <li data-i18n="job1_1">Mengembangkan aplikasi web enterprise dengan Laravel dan Vue.js</li>
-            <li data-i18n="job1_2">Membangun dan maintain REST API antar multiple sistem</li>
-            <li data-i18n="job1_3">Mengembangkan sistem manajemen inventori, CMS, dan Company Profile</li>
-            <li data-i18n="job1_4">Berkolaborasi dengan klien langsung untuk implementasi fitur</li>
+            <li data-i18n="job1_1">Mengembangkan dan memelihara aplikasi web enterprise dengan Laravel, Vue.js, JavaScript, dan MySQL melalui integrasi REST API.</li>
+            <li data-i18n="job1_2">Membangun dan menyempurnakan Sistem Manajemen Inventori untuk RSI Gondanglegi.</li>
+            <li data-i18n="job1_3">Memelihara sistem Point of Sale (POS) apotek Wisnu Farma.</li>
+            <li data-i18n="job1_4">Mengembangkan CMS Profil Perusahaan dan Sistem Manajemen Stok terintegrasi untuk Karya Hutama Perkasa.</li>
+            <li data-i18n="job1_5">Berkolaborasi dengan developer dan pemangku kepentingan untuk membuat fitur, memperbaiki bug, dan meningkatkan performa.</li>
+            <li data-i18n="job1_6">Mengoptimalkan basis data, menguji aplikasi, menyiapkan deployment, dan memelihara sistem.</li>
           </ul>
           <div class="timeline-tags">
-            <span class="timeline-tag">Laravel</span><span class="timeline-tag">Vue.js</span><span class="timeline-tag">REST API</span><span class="timeline-tag">MySQL</span><span class="timeline-tag">Flutter</span>
+            <span class="timeline-tag">Laravel</span><span class="timeline-tag">Vue.js</span><span class="timeline-tag">JavaScript</span><span class="timeline-tag">REST API</span><span class="timeline-tag">MySQL</span>
           </div>
         </div>
         <div class="timeline-item">
@@ -1959,12 +2072,14 @@
               <div class="timeline-role" data-i18n="job2_title">Full Stack Developer Intern</div>
               <div class="timeline-company">Sekawan Media</div>
             </div>
-            <div class="timeline-period" style="background:rgba(155,114,207,.1);color:var(--purple)">2023 — 2025</div>
+            <div class="timeline-period" style="background:rgba(155,114,207,.1);color:var(--purple)">Aug 2023 — Jun 2024</div>
           </div>
           <ul class="timeline-list">
-            <li data-i18n="job2_1">Mengembangkan sistem internal enterprise untuk ASW dan Inafood</li>
-            <li data-i18n="job2_2">Maintenance sistem Raw Material, R&D, dan Regulatory Affairs (RA)</li>
-            <li data-i18n="job2_3">Pengembangan fitur frontend dan backend, bug fixing dan optimasi performa</li>
+            <li data-i18n="job2_1">Mengembangkan dan memelihara sistem enterprise berbasis web menggunakan PHP, CodeIgniter, JavaScript, Bootstrap, dan MySQL.</li>
+            <li data-i18n="job2_2">Berkontribusi pada sistem Manajemen Bahan Baku, R&D, dan Regulatory Affairs (RA) untuk ASW dan Inafood.</li>
+            <li data-i18n="job2_3">Mengimplementasikan fitur, memperbaiki masalah aplikasi, dan mengoptimalkan alur kerja bisnis.</li>
+            <li data-i18n="job2_4">Berkolaborasi dengan tim developer untuk menganalisis kebutuhan dan mengembangkan solusi bagi klien.</li>
+            <li data-i18n="job2_5">Menjaga kualitas kode melalui debugging, pengujian, dan perbaikan sistem berkelanjutan.</li>
           </ul>
           <div class="timeline-tags">
             <span class="timeline-tag">PHP</span><span class="timeline-tag">CodeIgniter</span><span class="timeline-tag">JavaScript</span><span class="timeline-tag">Bootstrap</span>
@@ -1986,8 +2101,8 @@
           </svg>
         </div>
         <div>
-          <div class="cert-title">JLPT N5</div>
-          <div class="cert-sub">Japanese Language Proficiency Test</div>
+          <div class="cert-title" data-i18n="cert_jlpt_title">JLPT N5</div>
+          <div class="cert-sub" data-i18n="cert_jlpt_sub">Japanese Language Proficiency Test</div>
         </div>
       </div>
       <div class="cert-card">
@@ -1997,8 +2112,8 @@
           </svg>
         </div>
         <div>
-          <div class="cert-title">JFT-Basic (N4 Eq.)</div>
-          <div class="cert-sub">Japan Foundation Test</div>
+          <div class="cert-title" data-i18n="cert_jft_title">JFT-Basic</div>
+          <div class="cert-sub" data-i18n="cert_jft_sub">The Japan Foundation</div>
         </div>
       </div>
       <div class="cert-card">
@@ -2019,8 +2134,8 @@
           </svg>
         </div>
         <div>
-          <div class="cert-title" data-i18n="award2_title">LKS Web Technologies 2022</div>
-          <div class="cert-sub" data-i18n="award2_sub">Representative, Tulungagung Regency</div>
+          <div class="cert-title" data-i18n="award2_title">LKS Web Technologies</div>
+          <div class="cert-sub" data-i18n="award2_sub">Tulungagung Regency representative at the East Java provincial level</div>
         </div>
       </div>
       <div class="cert-card">
@@ -2030,8 +2145,19 @@
           </svg>
         </div>
         <div>
-          <div class="cert-title" data-i18n="award3_title">Mahasiswa IPK tertinggi 2026</div>
-          <div class="cert-sub" data-i18n="award3_sub">Politeknik Negeri Malang, Teknologi Informasi</div>
+          <div class="cert-title" data-i18n="cert_ukbi_title">UKBI — Predikat Unggul</div>
+          <div class="cert-sub" data-i18n="cert_ukbi_sub">Badan Bahasa, Kementerian Pendidikan</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="m8 12 2.5 2.5L16 9"/>
+          </svg>
+        </div>
+        <div>
+          <div class="cert-title" data-i18n="cert_competency_title">Software Engineering Competency Assessment</div>
+          <div class="cert-sub" data-i18n="cert_competency_sub">Certificate of Competency Assessment</div>
         </div>
       </div>
     </div>
@@ -2051,7 +2177,7 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
             GitHub
           </a>
-          <a href="https://www.linkedin.com/in/fajar-sandiyuda-1a97a427a" target="_blank" class="icon-btn">
+          <a href="https://linkedin.com/in/fajar-sandiyuda-1a97a427a" target="_blank" class="icon-btn">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             LinkedIn
           </a>
@@ -2087,17 +2213,16 @@
         </div>
         <div class="footer-contact-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          <a href="https://portofoliofajar.42web.io/" target="_blank" style="color:var(--blue)">portofoliofajar.42web.io</a>
+          <a href="https://fajarekasa555.github.io/portofolioV2" target="_blank" style="color:var(--blue)">fajarekasa555.github.io/portofolioV2</a>
         </div>
-        <a href="mailto:fajar.ekasandiyuda@gmail.com" class="btn btn-primary" style="margin-top:12px;display:inline-flex;align-items:center;gap:6px" data-i18n="hire_me">
+        <a href="mailto:fajar.ekasandiyuda@gmail.com" class="btn btn-primary" style="margin-top:12px;display:inline-flex;align-items:center;gap:6px" data-i18n="contact_me">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          Hire Me
+          Contact Me
         </a>
       </div>
     </div>
     <div class="footer-bar">
-      <p class="footer-mono">© 2025 Fajar Eka Sandiyuda · Built with care & too much coffee</p>
-      <p class="footer-mono"><span style="color:var(--green)">●</span> <span data-i18n="available">Available for work</span></p>
+      <p class="footer-mono">© 2026 Fajar Eka Sandiyuda · Built with care & too much coffee</p>
     </div>
   </div>
 </footer>
@@ -2126,11 +2251,10 @@ const langMeta = {
 const T = {
   id: {
     nav_projects:'Proyek',nav_art:'Karya',nav_about:'Tentang',nav_music:'Musik',nav_skills:'Keahlian',nav_work:'Pengalaman',nav_contrib:'Aktivitas',nav_contact:'Kontak',nav_certs:'Pencapaian',
-    open_work:'Terbuka untuk pekerjaan',
-    short_bio:'Full Stack Web Developer dengan 4+ tahun pengalaman membangun aplikasi enterprise — dari sistem pemerintahan, RS, hingga e-commerce.',
-    education:'D4 Teknik Informatika, Polinema (2024–2028)',
-    employment:'Mahasiswa Aktif · Terbuka untuk Bekerja',
-    repos:'Repos',years_exp:'Thn Exp',projects_stat:'Proyek',
+    short_bio:'Full Stack Web Developer dengan pengalaman profesional lebih dari 2 tahun membangun aplikasi web enterprise menggunakan PHP, Laravel, CodeIgniter, JavaScript, React, Vue.js, dan Next.js.',
+    education:'D4 Teknik Informatika, Polinema (2024–sekarang)',
+    employment:'Mahasiswa D4 · IPK 3,95/4,00',
+    repos:'Repos',years_exp:'Thn Pengalaman',projects_stat:'Proyek',
     pinned_label:'Repositori Unggulan',pinned_subtitle:'Proyek aktif & terbaik',
     pin1_desc:'Sistem manajemen inventori RS untuk RSI Gondanglegi — obat, stok, laporan.',
     pin2_desc:'Sistem penerimaan siswa baru online untuk SD/SMP Tulungagung.',
@@ -2141,6 +2265,8 @@ const T = {
     quest_sub:'Selesaikan aksi kecil dan kumpulkan badge XP sederhana.',
     quest_projects:'Lihat proyek',quest_art:'Buka galeri karya',quest_skills:'Cek tech stack',
     quest_theme:'Ganti tema',quest_contact:'Menuju kontak',quest_reward:'Reward',
+    quest_reset:'Reset quest',quest_progress:'{done}/{total} selesai',quest_toast:'+20 XP didapat',
+    quest_locked:'Badge terkunci',quest_unlocked:'Badge terbuka',
     projects_label:'Proyek',projects_title:'Yang Telah Dibangun',
     proj1_desc:'Sistem manajemen inventori rumah sakit. Memantau stok obat, barang masuk/keluar, dan laporan inventori lengkap.',
     proj2_desc:'Sistem penerimaan siswa baru online untuk SD/SMP di Kabupaten Tulungagung.',
@@ -2161,38 +2287,51 @@ const T = {
     art_process_title:'Dari sketsa ke karakter final',
     art_process_desc:'Galeri ini memakai frame artwork fixed, jadi scan gambar, ilustrasi render, atau PNG chibi bisa diganti dengan rapi tanpa mengubah layout.',
     art_stat_slots:'slot awal',art_stat_frames:'frame fixed',
-    art_more:'Lihat selengkapnya',art_less:'Tampilkan lebih sedikit',
     about_label:'Tentang',about_title:'Sedikit tentang saya',
+    about_intro:'Saya Fajar Eka Sandiyuda, Full Stack Web Developer dari Malang dengan pengalaman profesional lebih dari 2 tahun membangun dan memelihara aplikasi web enterprise menggunakan PHP, Laravel, CodeIgniter, JavaScript, React, Vue.js, dan Next.js.',
+    about_education:'Saya sedang menempuh D4 Teknik Informatika di Politeknik Negeri Malang (2024–sekarang) dengan IPK 3,95. Sebelumnya, saya lulus dari SMKN 1 Boyolangu jurusan Rekayasa Perangkat Lunak sebagai lulusan dengan nilai akademik tertinggi di program keahlian tersebut.',
+    about_work:'Di Haltec (Januari 2023–Juli 2025), saya mengembangkan aplikasi enterprise, sistem inventori RSI Gondanglegi, POS Wisnu Farma, serta CMS dan sistem stok Karya Hutama Perkasa. Saya juga menjalani magang Full Stack Developer di Sekawan Media (Agustus 2023–Juni 2024) untuk sistem ASW dan Inafood.',
+    about_other:'Saya pernah menjadi Ketua Japanese Language Club SMKN 1 Boyolangu (Januari 2023–Januari 2024), meraih JLPT N5 dan JFT-Basic, serta menjuarai Lomba Kanji antar-SMK se-Jawa Timur.',
+    about_fact1:'IPK 3,95 di Politeknik Negeri Malang',
+    about_fact2:'Ketua Japanese Language Club (2023–2024)',
+    about_fact3:'Sertifikat JLPT N5 dan JFT-Basic',
+    about_fact4:'Juara Lomba Kanji antar-SMK se-Jawa Timur',
     music_label:'Musik',music_title:'Playlist yang sering diputar',
     music_intro:'Sedikit gambaran musik yang menemani saya saat coding, menggambar, dan membangun sesuatu sampai larut malam.',
     music_open:'Buka Spotify',
     skills_label:'Keahlian',skills_title:'Tech Stack',
-    lang_native:'Bahasa Ibu',lang_english:'Profesional',lang_japanese:'N5 Bersertifikat · JFT N4',
+    lang_native:'Bahasa Ibu',lang_english:'Percakapan',lang_japanese:'Profesional · JLPT N5 · JFT-Basic',
     contrib_title:'Kontribusi GitHub',contrib_loading:'Memuat kontribusi…',less:'Sedikit',more:'Banyak',
     work_label:'Pengalaman',work_title:'Riwayat Kerja',
     job1_title:'Full Stack Developer',
-    job1_1:'Mengembangkan aplikasi web enterprise dengan Laravel dan Vue.js',
-    job1_2:'Membangun dan maintain REST API antar multiple sistem',
-    job1_3:'Mengembangkan sistem manajemen inventori, CMS, dan Company Profile',
-    job1_4:'Berkolaborasi dengan klien langsung untuk implementasi fitur',
+    job1_1:'Mengembangkan dan memelihara aplikasi web enterprise dengan Laravel, Vue.js, JavaScript, dan MySQL melalui integrasi REST API.',
+    job1_2:'Membangun dan menyempurnakan Sistem Manajemen Inventori untuk RSI Gondanglegi.',
+    job1_3:'Memelihara sistem Point of Sale (POS) apotek Wisnu Farma.',
+    job1_4:'Mengembangkan CMS Profil Perusahaan dan Sistem Manajemen Stok terintegrasi untuk Karya Hutama Perkasa.',
+    job1_5:'Berkolaborasi dengan developer dan pemangku kepentingan untuk membuat fitur, memperbaiki bug, dan meningkatkan performa.',
+    job1_6:'Mengoptimalkan basis data, menguji aplikasi, menyiapkan deployment, dan memelihara sistem.',
     job2_title:'Full Stack Developer Intern',
-    job2_1:'Mengembangkan sistem internal enterprise untuk ASW dan Inafood',
-    job2_2:'Maintenance sistem Raw Material, R&D, dan Regulatory Affairs (RA)',
-    job2_3:'Pengembangan fitur frontend dan backend, bug fixing dan optimasi performa',
+    job2_1:'Mengembangkan dan memelihara sistem enterprise berbasis web menggunakan PHP, CodeIgniter, JavaScript, Bootstrap, dan MySQL.',
+    job2_2:'Berkontribusi pada sistem Manajemen Bahan Baku, R&D, dan Regulatory Affairs (RA) untuk ASW dan Inafood.',
+    job2_3:'Mengimplementasikan fitur, memperbaiki masalah aplikasi, dan mengoptimalkan alur kerja bisnis.',
+    job2_4:'Berkolaborasi dengan tim developer untuk menganalisis kebutuhan dan mengembangkan solusi bagi klien.',
+    job2_5:'Menjaga kualitas kode melalui debugging, pengujian, dan perbaikan sistem berkelanjutan.',
     certs_label:'Pencapaian',certs_title:'Sertifikasi & Penghargaan',
     award1_title:'Juara Kompetisi Kanji',award1_sub:'Juara 1, SMK se-Jawa Timur',
-    award2_title:'LKS Web Technologies 2022',award2_sub:'Perwakilan Kabupaten Tulungagung',
-    award3_title:'Mahasiswa IPK tertinggi 2026',award3_sub:'Politeknik Negeri Malang, Teknologi Informasi',
+    award2_title:'LKS Web Technologies',award2_sub:'Perwakilan Tulungagung di tingkat Provinsi Jawa Timur',
+    cert_jlpt_title:'JLPT N5',cert_jlpt_sub:'Japanese Language Proficiency Test',
+    cert_jft_title:'JFT-Basic',cert_jft_sub:'The Japan Foundation',
+    cert_ukbi_title:'UKBI — Predikat Unggul',cert_ukbi_sub:'Badan Bahasa, Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi',
+    cert_competency_title:'Uji Kompetensi Rekayasa Perangkat Lunak',cert_competency_sub:'Certificate of Competency Assessment',
     footer_bio:'Membangun aplikasi web enterprise yang andal, satu commit dalam satu waktu.',
-    hire_me:'Hire Me',available:'Tersedia untuk pekerjaan',
+    contact_me:'Hubungi saya',
   },
   en: {
     nav_projects:'Projects',nav_art:'Art',nav_about:'About',nav_music:'Music',nav_skills:'Skills',nav_work:'Experience',nav_contrib:'Activity',nav_contact:'Contact',nav_certs:'Achievements',
-    open_work:'Open to work',
-    short_bio:'Full Stack Web Developer with 4+ years building enterprise web apps — government systems, hospital management, e-commerce, and more.',
-    education:'D4 Informatics Engineering, Polinema (2024–2028)',
-    employment:'Active Student · Open to Work',
-    repos:'Repos',years_exp:'Yrs Exp',projects_stat:'Projects',
+    short_bio:'Full Stack Web Developer with 2+ years of professional experience building enterprise web applications using PHP, Laravel, CodeIgniter, JavaScript, React, Vue.js, and Next.js.',
+    education:'D4 Informatics Engineering, Polinema (2024–present)',
+    employment:'D4 Student · GPA 3.95/4.00',
+    repos:'Repos',years_exp:'Yrs Experience',projects_stat:'Projects',
     pinned_label:'Pinned Repositories',pinned_subtitle:'Active & notable projects',
     pin1_desc:'Hospital inventory management system for RSI Gondanglegi — medicines, stock, reports.',
     pin2_desc:'Online student admission system for SD/SMP in Tulungagung.',
@@ -2203,6 +2342,8 @@ const T = {
     quest_sub:'Complete quick actions and collect a tiny XP badge.',
     quest_projects:'View projects',quest_art:'Open art gallery',quest_skills:'Check tech stack',
     quest_theme:'Switch theme',quest_contact:'Reach contact',quest_reward:'Reward',
+    quest_reset:'Reset quest',quest_progress:'{done}/{total} completed',quest_toast:'+20 XP gained',
+    quest_locked:'Badge locked',quest_unlocked:'Badge unlocked',
     projects_label:'Projects',projects_title:"Things I've Built",
     proj1_desc:'Hospital inventory management system. Tracks medicine stock, incoming/outgoing items, and generates detailed inventory reports.',
     proj2_desc:'Online student admission system for Elementary and Junior High Schools in Tulungagung Regency.',
@@ -2223,38 +2364,51 @@ const T = {
     art_process_title:'From sketch to polished character',
     art_process_desc:'The gallery uses fixed artwork frames, so scans, rendered illustrations, or chibi PNGs can be swapped in neatly without changing the layout.',
     art_stat_slots:'starter slots',art_stat_frames:'fixed frames',
-    art_more:'View more',art_less:'Show less',
     about_label:'About',about_title:'A bit about me',
+    about_intro:'I am Fajar Eka Sandiyuda, a Full Stack Web Developer from Malang with over 2 years of professional experience building and maintaining enterprise web applications using PHP, Laravel, CodeIgniter, JavaScript, React, Vue.js, and Next.js.',
+    about_education:'I am pursuing a D4 in Informatics Engineering at Politeknik Negeri Malang (2024–present), with a GPA of 3.95. I previously graduated from the Software Engineering program at SMKN 1 Boyolangu with the highest academic score in the program.',
+    about_work:'At Haltec (January 2023–July 2025), I developed enterprise applications, the RSI Gondanglegi inventory system, a POS system for Wisnu Farma, and an integrated CMS and stock system for Karya Hutama Perkasa. I also interned as a Full Stack Developer at Sekawan Media (August 2023–June 2024), contributing to systems for ASW and Inafood.',
+    about_other:'I led the Japanese Language Club at SMKN 1 Boyolangu (January 2023–January 2024), earned JLPT N5 and JFT-Basic certifications, and won the East Java inter-vocational-school Kanji competition.',
+    about_fact1:'GPA 3.95 at Politeknik Negeri Malang',
+    about_fact2:'Japanese Language Club President (2023–2024)',
+    about_fact3:'JLPT N5 and JFT-Basic certified',
+    about_fact4:'Winner, East Java inter-vocational-school Kanji competition',
     music_label:'Music',music_title:'Playlist on repeat',
     music_intro:'A small window into what keeps me focused while coding, drawing, and building things late into the night.',
     music_open:'Open Spotify',
     skills_label:'Skills',skills_title:'Tech Stack',
-    lang_native:'Native',lang_english:'Professional Working',lang_japanese:'N5 Certified · JFT N4 Equivalent',
+    lang_native:'Native',lang_english:'Conversational',lang_japanese:'Professional · JLPT N5 · JFT-Basic',
     contrib_title:'GitHub Contributions',contrib_loading:'Loading contributions…',less:'Less',more:'More',
     work_label:'Experience',work_title:'Work History',
     job1_title:'Full Stack Developer',
-    job1_1:'Developed enterprise web applications using Laravel and Vue.js',
-    job1_2:'Built and maintained REST APIs between multiple systems',
-    job1_3:'Developed inventory management systems, CMS, and Company Profile apps',
-    job1_4:'Collaborated directly with clients to implement requested features',
+    job1_1:'Developed and maintained enterprise web applications using Laravel, Vue.js, JavaScript, and MySQL with REST API integrations.',
+    job1_2:'Built and enhanced the inventory management system for RSI Gondanglegi.',
+    job1_3:'Maintained the pharmacy Point of Sale (POS) system for Wisnu Farma.',
+    job1_4:'Developed an integrated Company Profile CMS and stock management system for Karya Hutama Perkasa.',
+    job1_5:'Worked with developers and stakeholders to deliver features, fix bugs, and improve application performance.',
+    job1_6:'Optimized databases, tested applications, prepared deployments, and maintained systems.',
     job2_title:'Full Stack Developer Intern',
-    job2_1:'Developed internal enterprise systems for ASW and Inafood',
-    job2_2:'Maintained Raw Material, R&D, and Regulatory Affairs (RA) systems',
-    job2_3:'Developed frontend and backend features, bug fixing and performance optimization',
+    job2_1:'Developed and maintained enterprise web systems using PHP, CodeIgniter, JavaScript, Bootstrap, and MySQL.',
+    job2_2:'Contributed to Raw Material Management, R&D, and Regulatory Affairs (RA) systems for ASW and Inafood.',
+    job2_3:'Implemented features, resolved application issues, and improved existing business workflows.',
+    job2_4:'Worked with the development team to analyze requirements and deliver client-focused solutions.',
+    job2_5:'Maintained code quality through debugging, testing, and ongoing system improvements.',
     certs_label:'Achievements',certs_title:'Certifications & Awards',
-    award1_title:'Kanji Competition Winner',award1_sub:'1st Place, SMK across East Java',
-    award2_title:'LKS Web Technologies 2022',award2_sub:'Representative, Tulungagung Regency',
-    award3_title:'Highest GPA Student 2026',award3_sub:'Politeknik Negeri Malang, Informatics Engineering',
+    award1_title:'Kanji Competition Winner',award1_sub:'1st place, East Java inter-vocational-school competition',
+    award2_title:'LKS Web Technologies',award2_sub:'Tulungagung Regency representative at the East Java provincial level',
+    cert_jlpt_title:'JLPT N5',cert_jlpt_sub:'Japanese Language Proficiency Test',
+    cert_jft_title:'JFT-Basic',cert_jft_sub:'The Japan Foundation',
+    cert_ukbi_title:'UKBI — Excellent rating',cert_ukbi_sub:'Language Development and Cultivation Agency, Ministry of Education',
+    cert_competency_title:'Software Engineering Competency Assessment',cert_competency_sub:'Certificate of Competency Assessment',
     footer_bio:'Building reliable enterprise web apps, one commit at a time.',
-    hire_me:'Hire Me',available:'Available for work',
+    contact_me:'Contact me',
   },
   ja: {
     nav_projects:'プロジェクト',nav_art:'アート',nav_about:'自己紹介',nav_music:'音楽',nav_skills:'スキル',nav_work:'経験',nav_contrib:'アクティビティ',nav_contact:'お問い合わせ',nav_certs:'資格',
-    open_work:'仕事募集中',
-    short_bio:'3年以上の経験を持つフルスタックWebデベロッパー。政府システム、病院管理、ECなど企業向けアプリを構築。',
-    education:'D4情報工学、Polinema（2024–2028）',
-    employment:'現役学生 · フリーランス可',
-    repos:'リポジトリ',years_exp:'年の経験',projects_stat:'プロジェクト',
+    short_bio:'PHP、Laravel、CodeIgniter、JavaScript、React、Vue.js、Next.jsを用いた企業向けWebアプリ開発で、2年以上の実務経験を持つフルスタックWebデベロッパーです。',
+    education:'情報工学D4課程、Politeknik Negeri Malang（2024–在学中）',
+    employment:'D4課程在学中 · GPA 3.95/4.00',
+    repos:'リポジトリ',years_exp:'実務経験',projects_stat:'プロジェクト',
     pinned_label:'ピン留めリポジトリ',pinned_subtitle:'アクティブ・注目プロジェクト',
     pin1_desc:'RSI Gondanglegi病院の在庫管理システム。薬品、在庫、レポート機能付き。',
     pin2_desc:'Tulungagungの小・中学校向けオンライン入学システム。',
@@ -2265,6 +2419,8 @@ const T = {
     quest_sub:'小さなアクションを完了してXPバッジを集めます。',
     quest_projects:'プロジェクトを見る',quest_art:'アートギャラリー',quest_skills:'技術スタックを見る',
     quest_theme:'テーマ切替',quest_contact:'連絡先へ',quest_reward:'報酬',
+    quest_reset:'リセット',quest_progress:'{done}/{total} 完了',quest_toast:'+20 XP 獲得',
+    quest_locked:'バッジ未解除',quest_unlocked:'バッジ解除',
     projects_label:'プロジェクト',projects_title:'制作したもの',
     proj1_desc:'病院在庫管理システム。薬品在庫、入出荷管理、詳細レポートを生成。',
     proj2_desc:'Tulungagung県の小・中学校向けオンライン入学システム。',
@@ -2285,30 +2441,44 @@ const T = {
     art_process_title:'スケッチから完成キャラクターへ',
     art_process_desc:'固定サイズのアートフレームなので、スキャン、完成イラスト、ちびキャラPNGをきれいに差し替えられます。',
     art_stat_slots:'初期スロット',art_stat_frames:'固定フレーム',
-    art_more:'もっと見る',art_less:'少なく表示',
     about_label:'自己紹介',about_title:'私について少し',
+    about_intro:'マラン在住のフルスタックWebデベロッパー、Fajar Eka Sandiyudaです。PHP、Laravel、CodeIgniter、JavaScript、React、Vue.js、Next.jsを用いた企業向けWebアプリの開発・保守で、2年以上の実務経験があります。',
+    about_education:'Politeknik Negeri Malangの情報工学D4課程に在学中（2024年〜現在）で、GPAは3.95です。SMKN 1 Boyolanguのソフトウェアエンジニアリング課程を、学科最高の成績で卒業しました。',
+    about_work:'Haltec（2023年1月〜2025年7月）では、企業向けアプリ、RSI Gondanglegiの在庫管理システム、Wisnu FarmaのPOS、Karya Hutama Perkasa向けCMS・在庫システムを開発しました。また、Sekawan Mediaでフルスタック開発者としてインターン（2023年8月〜2024年6月）を経験し、ASWとInafoodのシステムに携わりました。',
+    about_other:'SMKN 1 BoyolanguのJapanese Language Club会長（2023年1月〜2024年1月）を務め、JLPT N5とJFT-Basicを取得し、東ジャワ州の職業高校対抗漢字大会で優勝しました。',
+    about_fact1:'Politeknik Negeri MalangでGPA 3.95',
+    about_fact2:'Japanese Language Club会長（2023–2024）',
+    about_fact3:'JLPT N5・JFT-Basic取得',
+    about_fact4:'東ジャワ州職業高校対抗漢字大会優勝',
     music_label:'音楽',music_title:'よく聴くプレイリスト',
     music_intro:'コーディング、イラスト制作、夜遅くまで何かを作る時間を支えてくれる音楽です。',
     music_open:'Spotifyで開く',
     skills_label:'スキル',skills_title:'技術スタック',
-    lang_native:'ネイティブ',lang_english:'ビジネスレベル',lang_japanese:'JLPT N5取得 · JFT N4相当',
+    lang_native:'ネイティブ',lang_english:'日常会話',lang_japanese:'業務レベル · JLPT N5 · JFT-Basic',
     contrib_title:'GitHub貢献グラフ',contrib_loading:'読み込み中…',less:'少ない',more:'多い',
     work_label:'職務経歴',work_title:'経歴',
     job1_title:'フルスタックデベロッパー',
-    job1_1:'LaravelとVue.jsを使って企業向けWebアプリを開発',
-    job1_2:'複数システム間のREST APIを構築・保守',
-    job1_3:'在庫管理システム、CMS、企業プロフィールを開発',
-    job1_4:'クライアントと直接連携して機能を実装',
+    job1_1:'Laravel、Vue.js、JavaScript、MySQLとREST API連携を用いて企業向けWebアプリを開発・保守。',
+    job1_2:'RSI Gondanglegiの在庫管理システムを開発・改善。',
+    job1_3:'Wisnu Farma薬局のPOSシステムを保守。',
+    job1_4:'Karya Hutama Perkasa向けに企業プロフィールCMSと在庫管理システムを連携して開発。',
+    job1_5:'開発者や関係者と協力し、機能実装、バグ修正、パフォーマンス改善を実施。',
+    job1_6:'データベース最適化、アプリのテスト、デプロイ準備、システム保守を担当。',
     job2_title:'フルスタックデベロッパーインターン',
-    job2_1:'ASW・Inafood向けの社内システムを開発',
-    job2_2:'原材料管理・R&D・薬事(RA)システムをメンテナンス',
-    job2_3:'フロントエンド・バックエンド開発、バグ修正、パフォーマンス最適化',
+    job2_1:'PHP、CodeIgniter、JavaScript、Bootstrap、MySQLを用いて企業向けWebシステムを開発・保守。',
+    job2_2:'ASWとInafood向けの原材料管理、R&D、薬事（RA）システムに貢献。',
+    job2_3:'機能実装、アプリの問題修正、既存業務フローの改善を担当。',
+    job2_4:'開発チームと連携し、要件分析と顧客ニーズに沿ったソリューションを実施。',
+    job2_5:'デバッグ、テスト、継続的な改善を通じてコード品質を維持。',
     certs_label:'資格・実績',certs_title:'取得資格と受賞歴',
     award1_title:'漢字コンテスト優勝',award1_sub:'東ジャワ州全職業高校1位',
-    award2_title:'LKS Webテクノロジー2022',award2_sub:'トゥルンアグン県代表',
-    award3_title:'GPA最高学生2026',award3_sub:'マラン工科大学、情報工学',
+    award2_title:'LKS Web Technologies',award2_sub:'東ジャワ州大会トゥルンアグン県代表',
+    cert_jlpt_title:'JLPT N5',cert_jlpt_sub:'日本語能力試験',
+    cert_jft_title:'JFT-Basic',cert_jft_sub:'国際交流基金',
+    cert_ukbi_title:'UKBI — 優秀評価',cert_ukbi_sub:'インドネシア教育・文化・研究・技術省 言語開発庁',
+    cert_competency_title:'ソフトウェアエンジニアリング技能評価',cert_competency_sub:'技能評価証明書',
     footer_bio:'信頼性の高い企業向けWebアプリを一つのコミットずつ丁寧に構築。',
-    hire_me:'採用する',available:'仕事募集中',
+    contact_me:'お問い合わせ',
   },
 };
 let currentLang = 'id';
@@ -2324,7 +2494,6 @@ function setLang(lang) {
   document.getElementById('langFlag').textContent = m.flag;
   document.getElementById('langLabel').textContent = m.label;
   ['id','en','ja'].forEach(l => document.getElementById('opt-'+l).classList.toggle('active', l === lang));
-  syncArtGalleryButton();
   syncQuestUI();
   closeLangDropdown();
 }
@@ -2342,21 +2511,8 @@ document.addEventListener('click', e => {
   if (!document.getElementById('langWrapper').contains(e.target)) closeLangDropdown();
 });
 
-function syncArtGalleryButton() {
-  const btn = document.getElementById('artMoreBtn');
-  const collection = document.getElementById('artCollection');
-  if (!btn || !collection) return;
-  const label = btn.querySelector('span');
-  const expanded = collection.classList.contains('expanded');
-  label.textContent = expanded ? T[currentLang].art_less : T[currentLang].art_more;
-  btn.classList.toggle('open', expanded);
-}
-function toggleArtGallery() {
-  document.getElementById('artCollection').classList.toggle('expanded');
-  syncArtGalleryButton();
-}
-
 const QUESTS = ['projects', 'art', 'skills', 'theme', 'contact'];
+let questToastTimer;
 function getQuestState() {
   try {
     return JSON.parse(localStorage.getItem('portfolioQuest') || '{}');
@@ -2369,30 +2525,55 @@ function setQuestState(state) {
 }
 function completeQuest(id, target) {
   const state = getQuestState();
+  const isNew = !state[id];
   if (!state[id]) {
     state[id] = true;
     setQuestState(state);
   }
   syncQuestUI();
+  if (isNew) showQuestToast();
   if (target) {
     const el = document.querySelector(target);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+}
+function resetQuest() {
+  localStorage.removeItem('portfolioQuest');
+  syncQuestUI();
+}
+function showQuestToast() {
+  const toast = document.getElementById('questToast');
+  if (!toast) return;
+  toast.textContent = T[currentLang].quest_toast;
+  toast.classList.add('show');
+  clearTimeout(questToastTimer);
+  questToastTimer = setTimeout(() => toast.classList.remove('show'), 1400);
 }
 function syncQuestUI() {
   const state = getQuestState();
   const done = QUESTS.filter(id => state[id]).length;
   const xp = done * 20;
   const xpEl = document.getElementById('questXp');
+  const statusEl = document.getElementById('questStatus');
   const progressEl = document.getElementById('questProgress');
   const badgeEl = document.getElementById('questBadge');
   if (xpEl) xpEl.textContent = xp;
+  if (statusEl) {
+    statusEl.innerHTML = T[currentLang].quest_progress
+      .replace('{done}', `<strong>${done}</strong>`)
+      .replace('{total}', QUESTS.length);
+  }
   if (progressEl) progressEl.style.width = `${(done / QUESTS.length) * 100}%`;
-  if (badgeEl) badgeEl.classList.toggle('unlocked', done === QUESTS.length);
+  if (badgeEl) {
+    const unlocked = done === QUESTS.length;
+    badgeEl.classList.toggle('unlocked', unlocked);
+    badgeEl.title = unlocked ? T[currentLang].quest_unlocked : T[currentLang].quest_locked;
+  }
   document.querySelectorAll('[data-quest]').forEach(btn => {
     const id = btn.getAttribute('data-quest');
     const isDone = Boolean(state[id]);
     btn.classList.toggle('done', isDone);
+    btn.setAttribute('aria-pressed', isDone ? 'true' : 'false');
     const mark = btn.querySelector('.quest-mark');
     if (mark) mark.textContent = isDone ? 'OK' : '+';
   });
